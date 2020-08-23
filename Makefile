@@ -15,20 +15,25 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 CPPFLAGS ?= $(INC_FLAGS) -MMD -MP
 
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
+	@echo "Building target executable"
 	$(CC) $(OBJS) -o $@ $(LDFLAGS)
+	@echo "Built target executable"
 
 # assembly
 $(BUILD_DIR)/%.s.o: %.s
+	@echo "Assembling files!"
 	$(MKDIR_P) $(dir $@)
 	$(AS) $(ASFLAGS) -c $< -o $@
 
 # c source
 $(BUILD_DIR)/%.c.o: %.c
+	@echo "Compiling C source files!"
 	$(MKDIR_P) $(dir $@)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 # c++ source
 $(BUILD_DIR)/%.cpp.o: %.cpp
+	@echo "Compiling C++ source files!"
 	$(MKDIR_P) $(dir $@)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
@@ -36,6 +41,7 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 .PHONY: clean
 
 clean:
+	@echo "Cleaning build directory!"
 	$(RM) -r $(BUILD_DIR)
 
 -include $(DEPS)
